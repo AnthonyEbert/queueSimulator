@@ -8,26 +8,51 @@
 #
 
 library(shiny)
+library(queuecomputer)
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
   
   # Application title
-  titlePanel("Old Faithful Geyser Data"),
+  titlePanel("Queue Simulator (M/M/K)"),
   
   # Sidebar with a slider input for number of bins 
   sidebarLayout(
     sidebarPanel(
-       sliderInput("bins",
-                   "Number of bins:",
+      radioButtons("inter", 
+                   "interarrivals/arrivals",
+                   c("interarrivals", "arrivals")),
+       sliderInput("arrivals",
+                   "rate of interarrivals/arrivals",
                    min = 1,
-                   max = 50,
-                   value = 30)
+                   max = 20,
+                   value = 5, 
+                   step = 0.1),
+       sliderInput("service",
+                   "rate of service",
+                   min = 1,
+                   max = 20,
+                   value = 5,
+                   step = 0.1),
+       sliderInput("servers",
+                   "number of servers",
+                   min = 1,
+                   max = 10,
+                   value = 1),
+       sliderInput("n", 
+                    "Logarithm of number of customers",
+                   min = 1, 
+                   max = 5,
+                   value = 2,
+                   step = 0.25)
     ),
     
     # Show a plot of the generated distribution
     mainPanel(
-       plotOutput("distPlot")
+       plotOutput("hist_departures"), 
+       plotOutput("hist_waiting"),
+       plotOutput("arrivalwaiting"),
+       plotOutput("queuelengthplot")
     )
   )
 ))
