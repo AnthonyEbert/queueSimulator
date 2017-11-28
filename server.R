@@ -1,44 +1,9 @@
-#
-# This is the server logic of a Shiny web application. You can run the 
-# application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-# 
-#    http://shiny.rstudio.com/
-#
-
-# test
+#YEAR: 2017
+#COPYRIGHT HOLDER: Anthony Ebert
 
 library(shiny)
-library(dplyr)
 library(queuecomputer)
 library(ggplot2)
-
-queue_lengths <- function(arrivals, service = 0, departures, scales = NULL){
-  
-  queuedata <- data.frame(input = arrivals, output = departures - service + 1e-8) %>% tidyr::gather()
-  
-  queuedata$key <- as.factor(queuedata$key)
-  
-  state_df <- data.frame(
-    key = as.factor(c("input", "output")),
-    state = c(1, -1)
-  )
-  
-  queuedata <- suppressMessages(left_join(queuedata, state_df))
-  
-  levels(queuedata$key) <- c("input", "output")
-  
-  queuedata <- queuedata %>% arrange(value, key) %>% mutate(
-    QueueLength = cumsum(state),
-    time = value
-  )
-  
-  queuedata <- queuedata %>% select(key, time, QueueLength)
-  
-  return(queuedata)
-  
-}
 
 reactive
 
@@ -73,7 +38,7 @@ shinyServer(function(input, output) {
   })
   
   output$queuelengthplot <- renderPlot({
-    ggplot(queue_lengths_computed()) + aes(x = time, y = QueueLength) + geom_step() + 
+    ggplot(queue_lengths_computed()) + aes(x = times, y = queuelength) + geom_step() + 
       ggtitle("Queue length plot") + xlab("Time") + ylab("Queue length")
   })
   

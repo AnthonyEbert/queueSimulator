@@ -1,11 +1,5 @@
-#
-# This is the user-interface definition of a Shiny web application. You can
-# run the application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-# 
-#    http://shiny.rstudio.com/
-#
+#YEAR: 2017
+#COPYRIGHT HOLDER: Anthony Ebert
 
 library(shiny)
 library(queuecomputer)
@@ -15,6 +9,8 @@ shinyUI(fluidPage(
   
   # Application title
   titlePanel("Queue Simulator (M/M/K)"),
+  
+  includeHTML("reference.html"),
   
   # Sidebar with a slider input for number of bins 
   sidebarLayout(
